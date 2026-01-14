@@ -8,11 +8,16 @@
         :root {
             --primary: #2c3e50;
             --accent: #3498db;
+            /* Couleurs ajustées pour le contraste */
             --audace: #e74c3c;
-            --rigueur: #f1c40f;
+            --rigueur: #f39c12; /* Jaune plus foncé pour lisibilité */
             --empathie: #2ecc71;
             --technique: #9b59b6;
+            --data: #e67e22;
+            --autonomie: #16a085;
+            --organisation: #34495e;
             --light: #ecf0f1;
+            --text-muted: #7f8c8d;
         }
 
         body {
@@ -25,7 +30,7 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             background: white;
             padding: 40px;
@@ -42,6 +47,37 @@
             text-align: center;
             margin-bottom: 30px;
             color: #666;
+            font-size: 1.1em;
+        }
+
+        /* Légende */
+        .legend {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            font-size: 0.9em;
+            border: 1px solid #eee;
+        }
+
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-color {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            flex-shrink: 0;
         }
 
         /* Questions */
@@ -51,35 +87,51 @@
             background: var(--light);
             border-radius: 8px;
             border-left: 5px solid var(--accent);
+            transition: transform 0.2s;
+        }
+        
+        .question-box:hover {
+            transform: translateX(5px);
         }
 
-        .question-text {
-            font-weight: 500;
-            margin-bottom: 10px;
+        .question-label {
+            font-weight: 600;
+            margin-bottom: 15px;
             display: block;
+            cursor: pointer;
+            font-size: 1.05em;
         }
 
         .q-number {
-            font-size: 0.8em;
-            color: #7f8c8d;
+            font-size: 0.75em;
+            color: var(--text-muted);
             margin-bottom: 5px;
             display: block;
             text-transform: uppercase;
             font-weight: bold;
+            letter-spacing: 1px;
         }
 
-        .range-container {
+        .range-wrapper {
             display: flex;
             align-items: center;
             gap: 15px;
             margin-top: 10px;
         }
 
+        .range-label {
+            font-size: 0.8em;
+            color: var(--text-muted);
+            width: 80px;
+            text-align: center;
+            line-height: 1.2;
+        }
+
         input[type="range"] {
             flex-grow: 1;
-            height: 6px;
+            height: 8px;
             border-radius: 5px;
-            background: #d3d3d3;
+            background: #cbd5e0;
             outline: none;
             -webkit-appearance: none;
             cursor: pointer;
@@ -87,104 +139,212 @@
 
         input[type="range"]::-webkit-slider-thumb {
             -webkit-appearance: none;
-            height: 20px;
-            width: 20px;
+            height: 24px;
+            width: 24px;
             border-radius: 50%;
             background: var(--accent);
+            border: 3px solid white;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
             cursor: pointer;
-            transition: background .15s ease-in-out;
+            transition: transform 0.1s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
         }
 
         .score-display {
             font-weight: bold;
-            font-size: 1.2em;
-            width: 30px;
+            font-size: 1.3em;
+            width: 40px;
             text-align: center;
             color: var(--accent);
+            background: white;
+            padding: 5px;
+            border-radius: 50%;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         /* Button */
         .btn-calculate {
             display: block;
             width: 100%;
-            padding: 15px;
+            max-width: 400px;
+            margin: 40px auto 0;
+            padding: 18px;
             background-color: var(--primary);
             color: white;
             border: none;
-            border-radius: 8px;
+            border-radius: 50px;
             font-size: 1.2em;
+            font-weight: bold;
             cursor: pointer;
-            margin-top: 40px;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
         .btn-calculate:hover {
             background-color: #34495e;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
         }
 
         /* Results */
         #results {
             display: none;
-            margin-top: 40px;
-            border-top: 2px solid #333;
-            padding-top: 20px;
+            margin-top: 50px;
+            border-top: 2px solid #eee;
+            padding-top: 30px;
+            animation: fadeIn 0.8s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .profile-summary {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            margin-bottom: 40px;
         }
 
         .stat-card {
             background: white;
-            border: 1px solid #ddd;
-            padding: 15px;
+            border: 1px solid #eee;
+            padding: 10px;
             border-radius: 8px;
             text-align: center;
-            width: 100px;
-            margin: 5px;
+            transition: transform 0.2s;
         }
-        .stat-val { font-size: 1.5em; font-weight: bold; display: block; }
+        .stat-card:hover { transform: translateY(-3px); }
 
+        .stat-val { 
+            font-size: 1.6em; 
+            font-weight: 800; 
+            display: block; 
+            margin-bottom: 2px;
+            color: #333;
+        }
+        .stat-label {
+            font-size: 0.8em;
+            font-weight: 600;
+            color: #777;
+            text-transform: uppercase;
+        }
+
+        /* Job Cards */
         .job-card {
             background: white;
-            border-left: 5px solid #ccc;
-            padding: 15px;
-            margin-bottom: 15px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            border-left: 6px solid #ccc;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.04);
+            border-radius: 6px;
         }
 
-        .job-match-high { border-left-color: #2ecc71; }
-        .job-match-med { border-left-color: #f1c40f; }
-        .job-match-low { border-left-color: #e74c3c; }
+        .job-match-high { border-left-color: #2ecc71; } /* Vert */
+        .job-match-med { border-left-color: #f1c40f; }  /* Jaune */
+        .job-match-low { border-left-color: #e74c3c; }  /* Rouge */
 
         .job-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
         }
 
-        .match-percent {
+        .job-title {
+            font-size: 1.2em;
+            color: var(--primary);
+            margin: 0;
+        }
+
+        .match-badge {
             font-weight: bold;
-            font-size: 1.1em;
+            font-size: 0.9em;
+            color: white;
+            background: var(--primary);
+            padding: 6px 12px;
+            border-radius: 20px;
         }
+        .job-match-high .match-badge { background: #27ae60; }
+        .job-match-med .match-badge { background: #f39c12; }
+        .job-match-low .match-badge { background: #c0392b; }
 
-        .bts-info {
+        .bts-tag {
             background-color: #e8f4fd;
             color: #2980b9;
-            padding: 5px 10px;
+            padding: 4px 8px;
             border-radius: 4px;
-            font-size: 0.9em;
-            font-weight: bold;
-            margin: 8px 0;
+            font-size: 0.85em;
+            font-weight: 600;
             display: inline-block;
+            margin-top: 5px;
         }
 
-        .details {
-            font-size: 0.9em;
-            color: #666;
-            margin-top: 5px;
+        .profile-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 8px; /* Espacement légèrement augmenté pour le marqueur */
+            margin-top: 15px;
+            font-size: 0.8em;
+        }
+
+        .profile-bar {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .bar-label {
+            width: 85px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        /* MODIFICATION ICI POUR LE MARQUEUR */
+        .bar-track {
+            flex: 1;
+            background: #edf2f7;
+            height: 8px;
+            border-radius: 4px;
+            position: relative; /* Nécessaire pour positionner le marqueur */
+            /* overflow: hidden;  <-- RETIRÉ pour que le marqueur dépasse */
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 4px;
+        }
+
+        /* NOUVEAU STYLE POUR LE MARQUEUR */
+        .user-marker {
+            position: absolute;
+            width: 4px;
+            height: 16px; /* Plus grand que la barre pour dépasser */
+            background-color: #2c3e50; /* Couleur sombre pour le contraste */
+            top: 50%;
+            transform: translate(-50%, -50%); /* Centrage parfait sur le point */
+            z-index: 2;
+            border-radius: 2px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+        }
+
+        .bar-value {
+            width: 35px;
+            text-align: right;
+            font-weight: 700;
+            color: #333;
+        }
+
+        @media (max-width: 600px) {
+            .container { padding: 20px 15px; }
+            .profile-summary { grid-template-columns: repeat(3, 1fr); }
+            .stat-val { font-size: 1.2em; }
+            .stat-label { font-size: 0.7em; }
         }
     </style>
 </head>
@@ -192,285 +352,193 @@
 
 <div class="container">
     <h1>🎯 Profilage Métier & BTS</h1>
-    <p class="intro">Répondez spontanément aux affirmations suivantes (0 à 5) pour révéler votre profil et découvrir le BTS fait pour vous.</p>
+    <p class="intro">
+        Évaluez les affirmations suivantes de <strong>0 à 5</strong>.<br>
+        <small>(Il n'y a pas de bonne ou mauvaise réponse, soyez honnête !)</small>
+    </p>
+
+    <div class="legend">
+        <strong>Les 7 dimensions du profil :</strong>
+        <div class="legend-grid">
+            <div class="legend-item"><div class="legend-color" style="background: var(--audace)"></div><span>Audace</span></div>
+            <div class="legend-item"><div class="legend-color" style="background: var(--rigueur)"></div><span>Rigueur</span></div>
+            <div class="legend-item"><div class="legend-color" style="background: var(--empathie)"></div><span>Empathie</span></div>
+            <div class="legend-item"><div class="legend-color" style="background: var(--technique)"></div><span>Technique</span></div>
+            <div class="legend-item"><div class="legend-color" style="background: var(--data)"></div><span>Data</span></div>
+            <div class="legend-item"><div class="legend-color" style="background: var(--autonomie)"></div><span>Autonomie</span></div>
+            <div class="legend-item"><div class="legend-color" style="background: var(--organisation)"></div><span>Organisation</span></div>
+        </div>
+        <div style="margin-top: 15px; display: flex; align-items: center; gap: 10px; font-size: 0.85em;">
+             <span><span style="display:inline-block; width:15px; height:8px; background:#ccc; border-radius:4px;"></span> Profil cible du métier</span>
+             <span><span style="display:inline-block; width:4px; height:14px; background:#2c3e50; vertical-align: middle; margin: 0 5px;"></span> Votre score</span>
+        </div>
+    </div>
 
     <form id="quizForm">
         <div id="questions-container"></div>
-        <button type="button" class="btn-calculate" onclick="calculateResults()">Voir mon Profil & BTS conseillé</button>
+        <button type="button" class="btn-calculate" onclick="calculateResults()">
+            Calculer mon Profil
+        </button>
     </form>
 
     <div id="results">
         <h2>Votre Radar de Compétences</h2>
+        <p style="text-align:center; color:#666; margin-bottom:20px;">Scores normalisés sur 10</p>
+        
         <div class="profile-summary">
             <div class="stat-card" style="border-bottom: 4px solid var(--audace)">
-                <span class="stat-val" id="score-A">0</span>Audace
+                <span class="stat-val" id="score-A">-</span><span class="stat-label">Audace</span>
             </div>
             <div class="stat-card" style="border-bottom: 4px solid var(--rigueur)">
-                <span class="stat-val" id="score-R">0</span>Rigueur
+                <span class="stat-val" id="score-R">-</span><span class="stat-label">Rigueur</span>
             </div>
             <div class="stat-card" style="border-bottom: 4px solid var(--empathie)">
-                <span class="stat-val" id="score-E">0</span>Empathie
+                <span class="stat-val" id="score-E">-</span><span class="stat-label">Empathie</span>
             </div>
             <div class="stat-card" style="border-bottom: 4px solid var(--technique)">
-                <span class="stat-val" id="score-T">0</span>Technique
+                <span class="stat-val" id="score-T">-</span><span class="stat-label">Tech</span>
+            </div>
+            <div class="stat-card" style="border-bottom: 4px solid var(--data)">
+                <span class="stat-val" id="score-D">-</span><span class="stat-label">Data</span>
+            </div>
+            <div class="stat-card" style="border-bottom: 4px solid var(--autonomie)">
+                <span class="stat-val" id="score-Au">-</span><span class="stat-label">Auto.</span>
+            </div>
+            <div class="stat-card" style="border-bottom: 4px solid var(--organisation)">
+                <span class="stat-val" id="score-O">-</span><span class="stat-label">Orga.</span>
             </div>
         </div>
 
-        <h2>Métiers & Formations correspondantes</h2>
+        <h2>Top 10 Métiers & BTS recommandés</h2>
         <div id="jobs-container"></div>
     </div>
 </div>
 
 <script>
-    // 1. DATA : Questions (Source brute)
+    // 1. DATA : Questions
     const rawQuestionsData = {
         A: [
             "Aborder un inconnu dans la rue pour lui demander quelque chose ne me fait pas peur.",
-            "J'aime la compétition et je veux gagner, quitte à écraser les autres.",
-            "L'idée d'être payé uniquement à la commission (si je ne vends pas, je gagne 0) me motive.",
-            "Prendre la parole en public sans préparation ne me stresse pas particulièrement.",
+            "L'idée d'être payé à la commission (variable) me motive plus qu'un salaire fixe.",
+            "Prendre la parole en public sans préparation ne me stresse pas.",
             "Je considère qu'un 'Non' n'est pas une fin, mais le début de la négociation.",
-            "Je préfère un poste instable mais avec un potentiel de gains illimité.",
-            "J'aime être celui qui tranche et prend la décision finale, même si c'est risqué.",
-            "La routine m'ennuie mortellement, j'ai besoin de nouveauté permanente.",
-            "Je n'hésite pas à contourner légèrement les règles si cela permet d'atteindre l'objectif."
+            "Je préfère un poste risqué avec gros gains potentiels qu'un poste pépère."
         ],
         R: [
-            "Je ne supporte pas d'être en retard ou que les choses ne soient pas rangées à leur place.",
-            "Avant de prendre une décision, je lis toutes les petites lignes du contrat.",
-            "Je préfère une tâche répétitive mais claire plutôt qu'une mission vague.",
+            "Je ne supporte pas d'être en retard ou que les choses soient mal rangées.",
+            "Je lis toujours les petites lignes des contrats avant de signer.",
+            "Je préfère une tâche répétitive mais claire plutôt qu'une mission floue.",
             "Je repère immédiatement une faute d'orthographe ou une erreur de calcul.",
-            "Je planifie mes vacances ou mes journées de travail longtemps à l'avance.",
-            "Pour moi, si une procédure a été établie, il est impératif de la suivre à la lettre.",
-            "Je me sens mal à l'aise quand je dois rendre un travail qui n'est pas 'parfait'.",
-            "Je tiens mes comptes personnels ou mes dossiers administratifs avec précision.",
-            "L'improvisation me génère du stress, j'ai besoin de savoir où je vais."
+            "Si une procédure existe, il est impératif de la suivre à la lettre."
         ],
         E: [
             "Je devine facilement quand quelqu'un ne va pas bien, même s'il ne dit rien.",
-            "Dans un conflit, je cherche toujours le compromis pour l'harmonie.",
-            "J'aime écouter les problèmes des gens pendant des heures.",
-            "L'ambiance au sein de l'équipe est plus importante que la performance individuelle.",
-            "Je sais adapter mon discours pour ne pas froisser mon interlocuteur.",
-            "Je prends souvent des nouvelles de mes collègues juste pour savoir comment ils vont.",
-            "Je préfère perdre une vente plutôt que de forcer la main à quelqu'un.",
-            "Je ressens physiquement le stress ou la tristesse des autres.",
-            "J'aime former, expliquer et aider les autres à progresser patiemment."
+            "Dans un conflit, je cherche toujours le compromis pour préserver l'harmonie.",
+            "J'aime écouter les problèmes des gens pour essayer de les aider.",
+            "L'ambiance d'équipe est plus importante que la performance individuelle.",
+            "Je ressens fortement les émotions des autres (empathie)."
         ],
         T: [
-            "Quand j'achète un appareil, je lis le manuel pour comprendre toutes les fonctions.",
-            "J'aime démonter les choses pour voir comment c'est fait dedans.",
-            "Je préfère les faits, les chiffres et les preuves logiques aux beaux discours.",
-            "Face à un problème, je mets mes émotions de côté pour analyser froidement.",
-            "J'adore apprendre à utiliser de nouveaux logiciels ou outils complexes.",
-            "Je demande systématiquement 'Pourquoi ?' quand on me donne une consigne.",
-            "Je suis à l'aise avec les tableaux Excel, les statistiques ou le code.",
-            "Je supporte mal les arguments flous du type 'on a toujours fait comme ça'.",
-            "Résoudre un casse-tête ou un problème logique me procure une satisfaction."
+            "Quand j'achète un appareil, je lis le manuel pour comprendre les fonctions.",
+            "J'aime comprendre comment les choses fonctionnent techniquement.",
+            "Je préfère les faits et les preuves logiques aux beaux discours.",
+            "J'adore apprendre à utiliser de nouveaux logiciels complexes.",
+            "Je suis à l'aise avec les outils numériques (Excel, Code, Logiciels métier)."
+        ],
+        D: [
+            "Pour décider, je compare systématiquement les chiffres et les prix.",
+            "J'aime analyser des graphiques pour comprendre une situation.",
+            "Je me fie aux données concrètes plutôt qu'à mon intuition.",
+            "Créer des tableaux de bord ou des statistiques me satisfait.",
+            "Face à un argument, je demande souvent : 'Quelles sont les preuves chiffrées ?'"
+        ],
+        Au: [
+            "Je travaille mieux seul(e) qu'en groupe où il faut se coordonner.",
+            "J'aime avoir des objectifs, mais je veux choisir ma méthode pour les atteindre.",
+            "Je suis plus performant quand personne ne me surveille.",
+            "J'aime organiser ma journée de travail en totale autonomie.",
+            "Face à un problème, je cherche d'abord seul avant d'appeler à l'aide."
+        ],
+        O: [
+            "Je fais des 'To-Do lists' et j'adore cocher les cases.",
+            "Je peux gérer plusieurs dossiers en même temps sans rien oublier.",
+            "Je planifie toujours mes projets étape par étape.",
+            "Mon agenda est mon meilleur allié, tout y est noté.",
+            "Même sous pression, je reste organisé et priorise mes tâches."
         ]
     };
 
-    // 2. DATA : Matrice Métiers + BTS
+// 2. DATA : Matrice Métiers (Revue et Corrigée : Plus de contraste)
+    // Les valeurs basses (1-3) et hautes (8-10) sont accentuées pour mieux discriminer.
     const jobsMatrix = [
-    { 
-        name: "Commercial Terrain (Chasseur)", 
-        bts: "BTS NDRC", 
-        profile: { A: 10, R: 5, E: 6, T: 4 }
-        // Audace max maintenue, rigueur augmentée (process commerciaux)
-    },
-    { 
-        name: "SDR (Prospection)", 
-        bts: "BTS NDRC", 
-        profile: { A: 10, R: 5, E: 5, T: 5 }
-        // Profil équilibré sauf audace max, empathie légèrement augmentée
-    },
-    { 
-        name: "Négociateur Immobilier", 
-        bts: "BTS Professions Immobilières", 
-        profile: { A: 8, R: 7, E: 8, T: 3 }
-        // Rigueur augmentée (juridique, conformité), audace légèrement baissée
-    },
-    { 
-        name: "Assistant Export", 
-        bts: "BTS Commerce International", 
-        profile: { A: 5, R: 9, E: 5, T: 6 }
-        // Audace augmentée (dimension commerciale), rigueur ajustée à 9
-    },
-    { 
-        name: "Agent de Transit", 
-        bts: "BTS GTLA (Logistique)", 
-        profile: { A: 2, R: 10, E: 2, T: 8 }
-        // Conservé : profil parfaitement cohérent
-    },
-    { 
-        name: "Technico-Commercial", 
-        bts: "BTS CCST", 
-        profile: { A: 7, R: 6, E: 7, T: 8 }
-        // Technique baissée à 8, empathie et rigueur augmentées
-    },
-    { 
-        name: "Chargé d'Affaires", 
-        bts: "BTS NDRC ou CCST", 
-        profile: { A: 7, R: 8, E: 6, T: 7 }
-        // Audace augmentée, technique légèrement baissée pour équilibrer
-    },
-    { 
-        name: "Manager de Rayon", 
-        bts: "BTS MCO", 
-        profile: { A: 6, R: 8, E: 7, T: 4 }
-        // Rigueur augmentée (gestion stocks, marges, rentabilité)
-    },
-    { 
-        name: "Conseiller Bancaire", 
-        bts: "BTS Banque", 
-        profile: { A: 6, R: 9, E: 7, T: 6 }
-        // Audace augmentée (objectifs commerciaux importants)
-    },
-    { 
-        name: "Customer Success (CSM)", 
-        bts: "BTS NDRC", 
-        profile: { A: 3, R: 6, E: 10, T: 5 }
-        // Conservé : profil excellent pour le rôle
-    },
-    { 
-        name: "Responsable SAV", 
-        bts: "BTS MCO ou CCST", 
-        profile: { A: 2, R: 7, E: 9, T: 8 }
-        // Rigueur augmentée (procédures, traçabilité), technique ajustée
-    },
-    { 
-        name: "Account Manager (AM)", 
-        bts: "BTS NDRC", 
-        profile: { A: 6, R: 7, E: 8, T: 5 }
-        // Gestion portefeuille clients, fidélisation, upsell
-    },
-    { 
-        name: "Business Developer (BizDev)", 
-        bts: "BTS NDRC ou CI", 
-        profile: { A: 9, R: 6, E: 6, T: 5 }
-        // Développement nouveaux marchés, partenariats stratégiques
-    },
-    { 
-        name: "Attaché Commercial Grands Comptes", 
-        bts: "BTS NDRC", 
-        profile: { A: 7, R: 8, E: 7, T: 6 }
-        // Négociations complexes, cycles de vente longs
-    },
-    { 
-        name: "Chef de Secteur (Terrain)", 
-        bts: "BTS NDRC ou MCO", 
-        profile: { A: 8, R: 7, E: 6, T: 4 }
-        // Animation réseau, développement zone géographique
-    },
-    { 
-        name: "Gestionnaire de Patrimoine Junior", 
-        bts: "BTS Banque ou Assurance", 
-        profile: { A: 5, R: 9, E: 8, T: 7 }
-        // Conseil financier, réglementation stricte
-    },
-    { 
-        name: "Courtier en Assurance", 
-        bts: "BTS Assurance", 
-        profile: { A: 8, R: 7, E: 7, T: 5 }
-        // Prospection, négociation, conseil client
-    },
-    { 
-        name: "Category Manager Junior", 
-        bts: "BTS MCO", 
-        profile: { A: 5, R: 9, E: 4, T: 6 }
-        // Analyse marché, optimisation assortiment, data-driven
-    },
-    { 
-        name: "Acheteur Junior", 
-        bts: "BTS MCO ou NDRC", 
-        profile: { A: 6, R: 9, E: 5, T: 5 }
-        // Négociation fournisseurs, analyse coûts
-    },
-    { 
-        name: "Chargé de Clientèle E-commerce", 
-        bts: "BTS MCO ou NDRC", 
-        profile: { A: 4, R: 6, E: 8, T: 7 }
-        // Support digital, gestion litiges en ligne
-    },
-    { 
-        name: "Animateur des Ventes", 
-        bts: "BTS MCO", 
-        profile: { A: 7, R: 5, E: 8, T: 3 }
-        // Promotion terrain, animation équipes magasin
-    },
-    { 
-        name: "Merchandiser", 
-        bts: "BTS MCO", 
-        profile: { A: 4, R: 8, E: 3, T: 5 }
-        // Optimisation linéaires, respect planogrammes
-    },
-    { 
-        name: "Chargé de Développement Commercial", 
-        bts: "BTS NDRC ou CI", 
-        profile: { A: 8, R: 6, E: 6, T: 5 }
-        // Prospection B2B, création pipeline commercial
-    },
-    { 
-        name: "Ingénieur Commercial Junior", 
-        bts: "BTS CCST", 
-        profile: { A: 6, R: 7, E: 6, T: 9 }
-        // Solutions techniques complexes, expertise produit
-    },
-    { 
-        name: "Chargé de Relation Client", 
-        bts: "BTS NDRC ou MCO", 
-        profile: { A: 3, R: 7, E: 9, T: 5 }
-        // Support client, résolution problèmes, satisfaction
-    },
-    { 
-        name: "Trade Marketeur", 
-        bts: "BTS MCO ou NDRC", 
-        profile: { A: 6, R: 7, E: 5, T: 6 }
-        // Opérations promotionnelles, négociation enseignes
-    },
-    { 
-        name: "Responsable de Secteur Banque/Assurance", 
-        bts: "BTS Banque ou Assurance", 
-        profile: { A: 7, R: 8, E: 7, T: 6 }
-        // Gestion portefeuille + animation équipe
-    },
-    { 
-        name: "Chargé d'Affaires Logistique", 
-        bts: "BTS GTLA", 
-        profile: { A: 5, R: 9, E: 5, T: 8 }
-        // Optimisation supply chain, négociation transporteurs
-    },
-    { 
-        name: "Gestionnaire ADV (Administration des Ventes)", 
-        bts: "BTS NDRC ou GTLA", 
-        profile: { A: 2, R: 10, E: 6, T: 6 }
-        // Traitement commandes, interface clients-production
-    },
-    { 
-        name: "Inside Sales", 
-        bts: "BTS NDRC", 
-        profile: { A: 8, R: 6, E: 6, T: 6 }
-        // Vente à distance, qualification leads, closing téléphonique
-    },
-    { 
-        name: "Chargé de Développement Export", 
-        bts: "BTS Commerce International", 
-        profile: { A: 7, R: 8, E: 6, T: 6 }
-        // Prospection internationale, veille marchés étrangers
-    }
-];
+        // --- COMMERCE & VENTE ---
+        { name: "Commercial Terrain (Chasseur)", bts: "BTS NDRC", profile: { A: 10, R: 3, E: 5, T: 2, D: 3, Au: 9, O: 4 } },
+        { name: "SDR (Prospection pur)", bts: "BTS NDRC", profile: { A: 10, R: 4, E: 3, T: 5, D: 5, Au: 4, O: 9 } },
+        { name: "Technico-Commercial", bts: "BTS CCST", profile: { A: 7, R: 5, E: 6, T: 10, D: 4, Au: 8, O: 6 } },
+        { name: "Ingénieur Commercial Jr", bts: "BTS CCST", profile: { A: 6, R: 6, E: 5, T: 10, D: 5, Au: 8, O: 7 } },
+        { name: "Business Developer", bts: "BTS NDRC / CI", profile: { A: 9, R: 4, E: 6, T: 3, D: 7, Au: 10, O: 5 } },
+        { name: "Inside Sales", bts: "BTS NDRC", profile: { A: 8, R: 5, E: 5, T: 6, D: 6, Au: 5, O: 9 } },
+        { name: "Animateur des Ventes", bts: "BTS MCO", profile: { A: 8, R: 3, E: 9, T: 2, D: 3, Au: 7, O: 5 } },
+        
+        // --- RELATION CLIENT & CONSEIL ---
+        { name: "Customer Success (CSM)", bts: "BTS NDRC", profile: { A: 3, R: 6, E: 10, T: 6, D: 6, Au: 6, O: 8 } },
+        { name: "Chargé Relation Client", bts: "BTS NDRC / MCO", profile: { A: 2, R: 7, E: 10, T: 4, D: 5, Au: 4, O: 8 } },
+        { name: "Conseiller Bancaire", bts: "BTS Banque", profile: { A: 5, R: 9, E: 8, T: 4, D: 8, Au: 5, O: 8 } },
+        { name: "Gestionnaire de Patrimoine Jr", bts: "BTS Banque / Assu", profile: { A: 5, R: 9, E: 7, T: 5, D: 9, Au: 6, O: 9 } },
+        { name: "Courtier en Assurance", bts: "BTS Assurance", profile: { A: 8, R: 6, E: 6, T: 4, D: 6, Au: 9, O: 7 } },
+        { name: "Négociateur Immobilier", bts: "BTS Prof. Immo", profile: { A: 9, R: 5, E: 8, T: 2, D: 4, Au: 9, O: 6 } },
+        { name: "Responsable SAV", bts: "BTS MCO / CCST", profile: { A: 3, R: 6, E: 9, T: 9, D: 5, Au: 6, O: 8 } },
 
-    // 3. PRÉPARATION & MÉLANGE DES QUESTIONS
+        // --- GESTION, ORGANISATION & LOGISTIQUE ---
+        { name: "Agent de Transit", bts: "BTS GTLA", profile: { A: 2, R: 10, E: 2, T: 7, D: 6, Au: 4, O: 10 } },
+        { name: "Chargé d'Affaires Logistique", bts: "BTS GTLA", profile: { A: 6, R: 8, E: 4, T: 7, D: 8, Au: 7, O: 10 } },
+        { name: "Gestionnaire ADV", bts: "BTS NDRC / GTLA", profile: { A: 1, R: 10, E: 5, T: 5, D: 7, Au: 3, O: 10 } },
+        { name: "Assistant Export", bts: "BTS CI", profile: { A: 3, R: 9, E: 4, T: 5, D: 6, Au: 4, O: 10 } },
+        { name: "Acheteur Junior", bts: "BTS MCO / NDRC", profile: { A: 7, R: 8, E: 3, T: 4, D: 9, Au: 7, O: 9 } },
+
+        // --- RETAIL & DISTRIBUTION ---
+        { name: "Manager de Rayon", bts: "BTS MCO", profile: { A: 6, R: 7, E: 7, T: 3, D: 8, Au: 6, O: 9 } },
+        { name: "Merchandiser", bts: "BTS MCO", profile: { A: 4, R: 8, E: 2, T: 4, D: 7, Au: 6, O: 9 } },
+        
+        // --- MARKETING & DIGITAL ---
+        { name: "Chargé Clientèle E-commerce", bts: "BTS MCO / NDRC", profile: { A: 3, R: 6, E: 7, T: 8, D: 7, Au: 6, O: 7 } },
+        { name: "Trade Marketeur", bts: "BTS MCO / NDRC", profile: { A: 5, R: 7, E: 4, T: 5, D: 9, Au: 6, O: 8 } },
+        { name: "Category Manager Jr", bts: "BTS MCO", profile: { A: 5, R: 8, E: 3, T: 5, D: 10, Au: 7, O: 9 } },
+		
+        // --- SUPPORT, GESTION & RH (BTS SAM / GPME) ---
+        // Profil : Très Organisé, Empathique (service interne), Rigoureux, mais moins "Audacieux" que les commerciaux.
+        { name: "Office Manager / Assistant RH", bts: "BTS SAM / GPME", profile: { A: 3, R: 8, E: 8, T: 4, D: 4, Au: 7, O: 10 } },
+        { name: "Assistant de Direction", bts: "BTS SAM", profile: { A: 4, R: 9, E: 7, T: 4, D: 3, Au: 6, O: 10 } },
+
+        // --- COMPTABILITÉ & GESTION (BTS CG) ---
+        // Profil : Le summum de la Rigueur et de la Data. Empathie et Audace faibles.
+        { name: "Comptable Unique / Gestionnaire", bts: "BTS CG", profile: { A: 1, R: 10, E: 2, T: 5, D: 10, Au: 6, O: 8 } },
+
+        // --- COMMUNICATION (BTS COM) ---
+        // Profil : Empathie (comprendre la cible), Organisation (événementiel), et un peu de Technique (outils créa).
+        { name: "Chargé de Communication Jr", bts: "BTS Communication", profile: { A: 6, R: 5, E: 9, T: 6, D: 3, Au: 7, O: 8 } },
+
+        // --- TOURISME (BTS TOURISME) ---
+        // Profil : Très fort en Empathie et Organisation. Audace moyenne (vente soft).
+        { name: "Conseiller Voyages / Forfaitiste", bts: "BTS Tourisme", profile: { A: 5, R: 7, E: 10, T: 4, D: 4, Au: 5, O: 9 } },
+
+        // --- INFORMATIQUE (BTS SIO) ---
+        // Profil : Technique et Autonomie maximales. Rigueur pour le code. Empathie souvent plus basse.
+        { name: "Développeur Web / App", bts: "BTS SIO (SLAM)", profile: { A: 3, R: 8, E: 2, T: 10, D: 6, Au: 9, O: 5 } },
+        { name: "Administrateur Réseaux", bts: "BTS SIO (SISR)", profile: { A: 2, R: 9, E: 3, T: 10, D: 5, Au: 7, O: 6 } }
+    ];
+
+    // 3. INIT : Mélange et Affichage
     let allQuestions = [];
-    
-    // On met tout à plat dans un seul tableau
+    const questionsCount = {};
+
     for (const [axis, questions] of Object.entries(rawQuestionsData)) {
+        questionsCount[axis] = questions.length;
         questions.forEach(q => {
             allQuestions.push({ text: q, axis: axis });
         });
     }
 
-    // Algorithme de mélange (Fisher-Yates Shuffle)
     function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -481,109 +549,140 @@
 
     allQuestions = shuffleArray(allQuestions);
 
-    // 4. AFFICHAGE DES QUESTIONS
     const container = document.getElementById('questions-container');
     
     allQuestions.forEach((item, index) => {
         const div = document.createElement('div');
         div.className = 'question-box';
+        const inputId = `q-${index}`;
         
         div.innerHTML = `
             <span class="q-number">Question ${index + 1} / ${allQuestions.length}</span>
-            <span class="question-text">${item.text}</span>
-            <div class="range-container">
-                <span>0</span>
-                <input type="range" min="0" max="5" value="0" class="q-input" data-axis="${item.axis}" oninput="this.nextElementSibling.innerText = this.value">
-                <span class="score-display">0</span>
-                <span>5</span>
+            <label class="question-label" for="${inputId}">${item.text}</label>
+            <div class="range-wrapper">
+                <span class="range-label">Pas du tout d'accord</span>
+                <input type="range" id="${inputId}" min="0" max="5" value="2" class="q-input" data-axis="${item.axis}" 
+                       oninput="this.nextElementSibling.innerText = this.value">
+                <span class="score-display">2</span>
+                <span class="range-label">Tout à fait d'accord</span>
             </div>
         `;
         container.appendChild(div);
     });
 
-    // 5. LOGIQUE DE CALCUL
+    // 4. LOGIQUE DE CALCUL
     function calculateResults() {
         const inputs = document.querySelectorAll('.q-input');
-        let scores = { A: 0, R: 0, E: 0, T: 0 };
+        let rawScores = { A: 0, R: 0, E: 0, T: 0, D: 0, Au: 0, O: 0 };
         
         inputs.forEach(input => {
-            scores[input.dataset.axis] += parseInt(input.value);
+            rawScores[input.dataset.axis] += parseInt(input.value);
         });
 
-        // Conversion sur 10
-        let finalScores = {
-            A: (scores.A / 4.5).toFixed(1),
-            R: (scores.R / 4.5).toFixed(1),
-            E: (scores.E / 4.5).toFixed(1),
-            T: (scores.T / 4.5).toFixed(1)
-        };
+        let finalScores = {};
+        for (let key in rawScores) {
+            let maxPossible = questionsCount[key] * 5;
+            finalScores[key] = ((rawScores[key] / maxPossible) * 10).toFixed(1);
+        }
 
-        // Affichage du profil utilisateur
         document.getElementById('score-A').innerText = finalScores.A;
         document.getElementById('score-R').innerText = finalScores.R;
         document.getElementById('score-E').innerText = finalScores.E;
         document.getElementById('score-T').innerText = finalScores.T;
+        document.getElementById('score-D').innerText = finalScores.D;
+        document.getElementById('score-Au').innerText = finalScores.Au;
+        document.getElementById('score-O').innerText = finalScores.O;
 
-        // Matching Métiers
+        // Logique de Matching Quadratique (Contrastée)
         let results = jobsMatrix.map(job => {
-            let diffA = Math.abs(finalScores.A - job.profile.A);
-            let diffR = Math.abs(finalScores.R - job.profile.R);
-            let diffE = Math.abs(finalScores.E - job.profile.E);
-            let diffT = Math.abs(finalScores.T - job.profile.T);
+            let totalPenalty = 0;
+            const dims = ['A','R','E','T','D','Au','O'];
             
-            let totalDiff = diffA + diffR + diffE + diffT;
-            let matchPercentage = Math.max(0, 100 - (totalDiff * 2.5));
+            dims.forEach(d => {
+                let diff = parseFloat(finalScores[d]) - job.profile[d];
+                totalPenalty += (diff * diff); 
+            });
+            
+            let matchPercentage = 100 - (totalPenalty / 1.2);
+            matchPercentage = Math.max(0, matchPercentage);
 
             return {
                 name: job.name,
                 bts: job.bts,
-                match: matchPercentage.toFixed(0),
-                diffs: { A: diffA, R: diffR, E: diffE, T: diffT },
+                match: Math.round(matchPercentage),
                 profile: job.profile
             };
         });
 
         results.sort((a, b) => b.match - a.match);
+        const topJobs = results.slice(0, 10);
 
         const jobsContainer = document.getElementById('jobs-container');
         jobsContainer.innerHTML = "";
+        const fragment = document.createDocumentFragment();
 
-        results.forEach(res => {
+        const dimensionsDef = {
+            A: { name: 'Audace', color: 'var(--audace)' },
+            R: { name: 'Rigueur', color: 'var(--rigueur)' },
+            E: { name: 'Empathie', color: 'var(--empathie)' },
+            T: { name: 'Technique', color: 'var(--technique)' },
+            D: { name: 'Data', color: 'var(--data)' },
+            Au: { name: 'Autonomie', color: 'var(--autonomie)' },
+            O: { name: 'Organisation', color: 'var(--organisation)' }
+        };
+
+        topJobs.forEach((res, index) => {
             let matchClass = "job-match-low";
-            if (res.match > 80) matchClass = "job-match-high";
+            if (res.match > 85) matchClass = "job-match-high"; 
             else if (res.match > 60) matchClass = "job-match-med";
 
-            const div = document.createElement('div');
-            div.className = `job-card ${matchClass}`;
+            const card = document.createElement('div');
+            card.className = `job-card ${matchClass}`;
             
-            let feedback = [];
-            if (res.diffs.A > 3) feedback.push(`Audace (${res.profile.A})`);
-            if (res.diffs.R > 3) feedback.push(`Rigueur (${res.profile.R})`);
-            if (res.diffs.E > 3) feedback.push(`Empathie (${res.profile.E})`);
-            if (res.diffs.T > 3) feedback.push(`Technique (${res.profile.T})`);
-            
-            let feedbackText = feedback.length > 0 
-                ? "Écarts notables : " + feedback.join(", ") 
-                : "Profil aligné.";
+            let barsHtml = "";
+            for (let [k, dim] of Object.entries(dimensionsDef)) {
+                let jobWidth = res.profile[k] * 10; // Largeur de la barre métier
+                
+                // MODIFICATION ICI : Récupération du score utilisateur et positionnement
+                let userScore = parseFloat(finalScores[k]);
+                let userPosition = userScore * 10; // Position en %
 
-            div.innerHTML = `
+                barsHtml += `
+                    <div class="profile-bar">
+                        <span class="bar-label">${dim.name}</span>
+                        <div class="bar-track">
+                            <div class="bar-fill" style="width: ${jobWidth}%; background: ${dim.color}; opacity: 0.6;"></div>
+                            <div class="user-marker" style="left: ${userPosition}%;" title="Votre score : ${userScore}/10"></div>
+                        </div>
+                        <span class="bar-value">${res.profile[k]}</span>
+                    </div>
+                `;
+            }
+
+            card.innerHTML = `
                 <div class="job-header">
-                    <strong>${res.name}</strong>
-                    <span class="match-percent">${res.match}% Compatible</span>
+                    <div>
+                        <h3 class="job-title">${index + 1}. ${res.name}</h3>
+                        <span class="bts-tag">${res.bts}</span>
+                    </div>
+                    <span class="match-badge">${res.match}% Match</span>
                 </div>
-                <div class="bts-info">🎓 ${res.bts}</div>
-                <div class="details">
-                    ${feedbackText}
+                <div class="profile-bars">
+                    ${barsHtml}
                 </div>
             `;
-            jobsContainer.appendChild(div);
+            fragment.appendChild(card);
         });
 
-        document.getElementById('results').style.display = 'block';
-        document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+        jobsContainer.appendChild(fragment);
+
+        const resultsSection = document.getElementById('results');
+        resultsSection.style.display = 'block';
+        setTimeout(() => {
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
     }
 </script>
 
 </body>
 </html>
-
