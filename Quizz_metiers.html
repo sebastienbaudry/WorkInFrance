@@ -272,18 +272,193 @@
 
     // 2. DATA : Matrice Métiers + BTS
     const jobsMatrix = [
-        { name: "Commercial Terrain (Chasseur)", bts: "BTS NDRC", profile: { A: 10, R: 3, E: 6, T: 4 } },
-        { name: "SDR (Prospection)", bts: "BTS NDRC", profile: { A: 10, R: 5, E: 4, T: 5 } },
-        { name: "Négociateur Immobilier", bts: "BTS Professions Immobilières", profile: { A: 9, R: 4, E: 8, T: 3 } },
-        { name: "Assistant Export", bts: "BTS Commerce International", profile: { A: 3, R: 10, E: 5, T: 6 } },
-        { name: "Agent de Transit", bts: "BTS GTLA (Logistique)", profile: { A: 2, R: 10, E: 2, T: 8 } },
-        { name: "Technico-Commercial", bts: "BTS CCST", profile: { A: 7, R: 5, E: 6, T: 9 } },
-        { name: "Chargé d'Affaires", bts: "BTS NDRC ou CCST", profile: { A: 6, R: 8, E: 6, T: 8 } },
-        { name: "Manager de Rayon", bts: "BTS MCO", profile: { A: 6, R: 7, E: 7, T: 4 } },
-        { name: "Conseiller Bancaire", bts: "BTS Banque", profile: { A: 4, R: 9, E: 7, T: 6 } },
-        { name: "Customer Success (CSM)", bts: "BTS NDRC", profile: { A: 3, R: 6, E: 10, T: 5 } },
-        { name: "Responsable SAV", bts: "BTS MCO ou CCST", profile: { A: 2, R: 5, E: 9, T: 9 } }
-    ];
+    { 
+        name: "Commercial Terrain (Chasseur)", 
+        bts: "BTS NDRC", 
+        profile: { A: 10, R: 5, E: 6, T: 4 }
+        // Audace max maintenue, rigueur augmentée (process commerciaux)
+    },
+    { 
+        name: "SDR (Prospection)", 
+        bts: "BTS NDRC", 
+        profile: { A: 10, R: 5, E: 5, T: 5 }
+        // Profil équilibré sauf audace max, empathie légèrement augmentée
+    },
+    { 
+        name: "Négociateur Immobilier", 
+        bts: "BTS Professions Immobilières", 
+        profile: { A: 8, R: 7, E: 8, T: 3 }
+        // Rigueur augmentée (juridique, conformité), audace légèrement baissée
+    },
+    { 
+        name: "Assistant Export", 
+        bts: "BTS Commerce International", 
+        profile: { A: 5, R: 9, E: 5, T: 6 }
+        // Audace augmentée (dimension commerciale), rigueur ajustée à 9
+    },
+    { 
+        name: "Agent de Transit", 
+        bts: "BTS GTLA (Logistique)", 
+        profile: { A: 2, R: 10, E: 2, T: 8 }
+        // Conservé : profil parfaitement cohérent
+    },
+    { 
+        name: "Technico-Commercial", 
+        bts: "BTS CCST", 
+        profile: { A: 7, R: 6, E: 7, T: 8 }
+        // Technique baissée à 8, empathie et rigueur augmentées
+    },
+    { 
+        name: "Chargé d'Affaires", 
+        bts: "BTS NDRC ou CCST", 
+        profile: { A: 7, R: 8, E: 6, T: 7 }
+        // Audace augmentée, technique légèrement baissée pour équilibrer
+    },
+    { 
+        name: "Manager de Rayon", 
+        bts: "BTS MCO", 
+        profile: { A: 6, R: 8, E: 7, T: 4 }
+        // Rigueur augmentée (gestion stocks, marges, rentabilité)
+    },
+    { 
+        name: "Conseiller Bancaire", 
+        bts: "BTS Banque", 
+        profile: { A: 6, R: 9, E: 7, T: 6 }
+        // Audace augmentée (objectifs commerciaux importants)
+    },
+    { 
+        name: "Customer Success (CSM)", 
+        bts: "BTS NDRC", 
+        profile: { A: 3, R: 6, E: 10, T: 5 }
+        // Conservé : profil excellent pour le rôle
+    },
+    { 
+        name: "Responsable SAV", 
+        bts: "BTS MCO ou CCST", 
+        profile: { A: 2, R: 7, E: 9, T: 8 }
+        // Rigueur augmentée (procédures, traçabilité), technique ajustée
+    },
+    { 
+        name: "Account Manager (AM)", 
+        bts: "BTS NDRC", 
+        profile: { A: 6, R: 7, E: 8, T: 5 }
+        // Gestion portefeuille clients, fidélisation, upsell
+    },
+    { 
+        name: "Business Developer (BizDev)", 
+        bts: "BTS NDRC ou CI", 
+        profile: { A: 9, R: 6, E: 6, T: 5 }
+        // Développement nouveaux marchés, partenariats stratégiques
+    },
+    { 
+        name: "Attaché Commercial Grands Comptes", 
+        bts: "BTS NDRC", 
+        profile: { A: 7, R: 8, E: 7, T: 6 }
+        // Négociations complexes, cycles de vente longs
+    },
+    { 
+        name: "Chef de Secteur (Terrain)", 
+        bts: "BTS NDRC ou MCO", 
+        profile: { A: 8, R: 7, E: 6, T: 4 }
+        // Animation réseau, développement zone géographique
+    },
+    { 
+        name: "Gestionnaire de Patrimoine Junior", 
+        bts: "BTS Banque ou Assurance", 
+        profile: { A: 5, R: 9, E: 8, T: 7 }
+        // Conseil financier, réglementation stricte
+    },
+    { 
+        name: "Courtier en Assurance", 
+        bts: "BTS Assurance", 
+        profile: { A: 8, R: 7, E: 7, T: 5 }
+        // Prospection, négociation, conseil client
+    },
+    { 
+        name: "Category Manager Junior", 
+        bts: "BTS MCO", 
+        profile: { A: 5, R: 9, E: 4, T: 6 }
+        // Analyse marché, optimisation assortiment, data-driven
+    },
+    { 
+        name: "Acheteur Junior", 
+        bts: "BTS MCO ou NDRC", 
+        profile: { A: 6, R: 9, E: 5, T: 5 }
+        // Négociation fournisseurs, analyse coûts
+    },
+    { 
+        name: "Chargé de Clientèle E-commerce", 
+        bts: "BTS MCO ou NDRC", 
+        profile: { A: 4, R: 6, E: 8, T: 7 }
+        // Support digital, gestion litiges en ligne
+    },
+    { 
+        name: "Animateur des Ventes", 
+        bts: "BTS MCO", 
+        profile: { A: 7, R: 5, E: 8, T: 3 }
+        // Promotion terrain, animation équipes magasin
+    },
+    { 
+        name: "Merchandiser", 
+        bts: "BTS MCO", 
+        profile: { A: 4, R: 8, E: 3, T: 5 }
+        // Optimisation linéaires, respect planogrammes
+    },
+    { 
+        name: "Chargé de Développement Commercial", 
+        bts: "BTS NDRC ou CI", 
+        profile: { A: 8, R: 6, E: 6, T: 5 }
+        // Prospection B2B, création pipeline commercial
+    },
+    { 
+        name: "Ingénieur Commercial Junior", 
+        bts: "BTS CCST", 
+        profile: { A: 6, R: 7, E: 6, T: 9 }
+        // Solutions techniques complexes, expertise produit
+    },
+    { 
+        name: "Chargé de Relation Client", 
+        bts: "BTS NDRC ou MCO", 
+        profile: { A: 3, R: 7, E: 9, T: 5 }
+        // Support client, résolution problèmes, satisfaction
+    },
+    { 
+        name: "Trade Marketeur", 
+        bts: "BTS MCO ou NDRC", 
+        profile: { A: 6, R: 7, E: 5, T: 6 }
+        // Opérations promotionnelles, négociation enseignes
+    },
+    { 
+        name: "Responsable de Secteur Banque/Assurance", 
+        bts: "BTS Banque ou Assurance", 
+        profile: { A: 7, R: 8, E: 7, T: 6 }
+        // Gestion portefeuille + animation équipe
+    },
+    { 
+        name: "Chargé d'Affaires Logistique", 
+        bts: "BTS GTLA", 
+        profile: { A: 5, R: 9, E: 5, T: 8 }
+        // Optimisation supply chain, négociation transporteurs
+    },
+    { 
+        name: "Gestionnaire ADV (Administration des Ventes)", 
+        bts: "BTS NDRC ou GTLA", 
+        profile: { A: 2, R: 10, E: 6, T: 6 }
+        // Traitement commandes, interface clients-production
+    },
+    { 
+        name: "Inside Sales", 
+        bts: "BTS NDRC", 
+        profile: { A: 8, R: 6, E: 6, T: 6 }
+        // Vente à distance, qualification leads, closing téléphonique
+    },
+    { 
+        name: "Chargé de Développement Export", 
+        bts: "BTS Commerce International", 
+        profile: { A: 7, R: 8, E: 6, T: 6 }
+        // Prospection internationale, veille marchés étrangers
+    }
+];
 
     // 3. PRÉPARATION & MÉLANGE DES QUESTIONS
     let allQuestions = [];
@@ -411,3 +586,4 @@
 
 </body>
 </html>
+
