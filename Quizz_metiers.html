@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Radar de Compétences & Matching Métier</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #3498db;
+            --audace: #e74c3c;
+            --rigueur: #f1c40f;
+            --empathie: #2ecc71;
+            --technique: #9b59b6;
+            --light: #ecf0f1;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h1, h2 {
+            text-align: center;
+            color: var(--primary);
+        }
+
+        p.intro {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #666;
+        }
+
+        /* Questions */
+        .question-box {
+            margin: 20px 0;
+            padding: 20px;
+            background: var(--light);
+            border-radius: 8px;
+            border-left: 5px solid var(--accent);
+        }
+
+        .question-text {
+            font-weight: 500;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        .q-number {
+            font-size: 0.8em;
+            color: #7f8c8d;
+            margin-bottom: 5px;
+            display: block;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+
+        .range-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        input[type="range"] {
+            flex-grow: 1;
+            height: 6px;
+            border-radius: 5px;
+            background: #d3d3d3;
+            outline: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 20px;
+            width: 20px;
+            border-radius: 50%;
+            background: var(--accent);
+            cursor: pointer;
+            transition: background .15s ease-in-out;
+        }
+
+        .score-display {
+            font-weight: bold;
+            font-size: 1.2em;
+            width: 30px;
+            text-align: center;
+            color: var(--accent);
+        }
+
+        /* Button */
+        .btn-calculate {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            cursor: pointer;
+            margin-top: 40px;
+            transition: background 0.3s;
+        }
+        .btn-calculate:hover {
+            background-color: #34495e;
+        }
+
+        /* Results */
+        #results {
+            display: none;
+            margin-top: 40px;
+            border-top: 2px solid #333;
+            padding-top: 20px;
+        }
+
+        .profile-summary {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            width: 100px;
+            margin: 5px;
+        }
+        .stat-val { font-size: 1.5em; font-weight: bold; display: block; }
+
+        .job-card {
+            background: white;
+            border-left: 5px solid #ccc;
+            padding: 15px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .job-match-high { border-left-color: #2ecc71; }
+        .job-match-med { border-left-color: #f1c40f; }
+        .job-match-low { border-left-color: #e74c3c; }
+
+        .job-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .match-percent {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .details {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🎯 Profilage Métier</h1>
+    <p class="intro">Répondez spontanément aux affirmations suivantes (0 = Pas du tout d'accord, 5 = Tout à fait d'accord) pour révéler votre profil naturel.</p>
+
+    <form id="quizForm">
+        <div id="questions-container"></div>
+        <button type="button" class="btn-calculate" onclick="calculateResults()">Voir mon Profil & Métiers</button>
+    </form>
+
+    <div id="results">
+        <h2>Votre Radar de Compétences</h2>
+        <div class="profile-summary">
+            <div class="stat-card" style="border-bottom: 4px solid var(--audace)">
+                <span class="stat-val" id="score-A">0</span>Audace
+            </div>
+            <div class="stat-card" style="border-bottom: 4px solid var(--rigueur)">
+                <span class="stat-val" id="score-R">0</span>Rigueur
+            </div>
+            <div class="stat-card" style="border-bottom: 4px solid var(--empathie)">
+                <span class="stat-val" id="score-E">0</span>Empathie
+            </div>
+            <div class="stat-card" style="border-bottom: 4px solid var(--technique)">
+                <span class="stat-val" id="score-T">0</span>Technique
+            </div>
+        </div>
+
+        <h2>Classement des Métiers</h2>
+        <div id="jobs-container"></div>
+    </div>
+</div>
+
+<script>
+    // 1. DATA : Questions (Source brute)
+    const rawQuestionsData = {
+        A: [
+            "Aborder un inconnu dans la rue pour lui demander quelque chose ne me fait pas peur.",
+            "J'aime la compétition et je veux gagner, quitte à écraser les autres.",
+            "L'idée d'être payé uniquement à la commission (si je ne vends pas, je gagne 0) me motive.",
+            "Prendre la parole en public sans préparation ne me stresse pas particulièrement.",
+            "Je considère qu'un 'Non' n'est pas une fin, mais le début de la négociation.",
+            "Je préfère un poste instable mais avec un potentiel de gains illimité.",
+            "J'aime être celui qui tranche et prend la décision finale, même si c'est risqué.",
+            "La routine m'ennuie mortellement, j'ai besoin de nouveauté permanente.",
+            "Je n'hésite pas à contourner légèrement les règles si cela permet d'atteindre l'objectif."
+        ],
+        R: [
+            "Je ne supporte pas d'être en retard ou que les choses ne soient pas rangées à leur place.",
+            "Avant de prendre une décision, je lis toutes les petites lignes du contrat.",
+            "Je préfère une tâche répétitive mais claire plutôt qu'une mission vague.",
+            "Je repère immédiatement une faute d'orthographe ou une erreur de calcul.",
+            "Je planifie mes vacances ou mes journées de travail longtemps à l'avance.",
+            "Pour moi, si une procédure a été établie, il est impératif de la suivre à la lettre.",
+            "Je me sens mal à l'aise quand je dois rendre un travail qui n'est pas 'parfait'.",
+            "Je tiens mes comptes personnels ou mes dossiers administratifs avec précision.",
+            "L'improvisation me génère du stress, j'ai besoin de savoir où je vais."
+        ],
+        E: [
+            "Je devine facilement quand quelqu'un ne va pas bien, même s'il ne dit rien.",
+            "Dans un conflit, je cherche toujours le compromis pour l'harmonie.",
+            "J'aime écouter les problèmes des gens pendant des heures.",
+            "L'ambiance au sein de l'équipe est plus importante que la performance individuelle.",
+            "Je sais adapter mon discours pour ne pas froisser mon interlocuteur.",
+            "Je prends souvent des nouvelles de mes collègues juste pour savoir comment ils vont.",
+            "Je préfère perdre une vente plutôt que de forcer la main à quelqu'un.",
+            "Je ressens physiquement le stress ou la tristesse des autres.",
+            "J'aime former, expliquer et aider les autres à progresser patiemment."
+        ],
+        T: [
+            "Quand j'achète un appareil, je lis le manuel pour comprendre toutes les fonctions.",
+            "J'aime démonter les choses pour voir comment c'est fait dedans.",
+            "Je préfère les faits, les chiffres et les preuves logiques aux beaux discours.",
+            "Face à un problème, je mets mes émotions de côté pour analyser froidement.",
+            "J'adore apprendre à utiliser de nouveaux logiciels ou outils complexes.",
+            "Je demande systématiquement 'Pourquoi ?' quand on me donne une consigne.",
+            "Je suis à l'aise avec les tableaux Excel, les statistiques ou le code.",
+            "Je supporte mal les arguments flous du type 'on a toujours fait comme ça'.",
+            "Résoudre un casse-tête ou un problème logique me procure une satisfaction."
+        ]
+    };
+
+    // 2. DATA : Matrice Métiers
+    const jobsMatrix = [
+        { name: "Commercial Terrain (Chasseur)", profile: { A: 10, R: 3, E: 6, T: 4 } },
+        { name: "SDR (Prospection)", profile: { A: 10, R: 5, E: 4, T: 5 } },
+        { name: "Négociateur Immobilier", profile: { A: 9, R: 4, E: 8, T: 3 } },
+        { name: "Assistant Export", profile: { A: 3, R: 10, E: 5, T: 6 } },
+        { name: "Agent de Transit", profile: { A: 2, R: 10, E: 2, T: 8 } },
+        { name: "Technico-Commercial", profile: { A: 7, R: 5, E: 6, T: 9 } },
+        { name: "Chargé d'Affaires", profile: { A: 6, R: 8, E: 6, T: 8 } },
+        { name: "Manager de Rayon", profile: { A: 6, R: 7, E: 7, T: 4 } },
+        { name: "Conseiller Bancaire", profile: { A: 4, R: 9, E: 7, T: 6 } },
+        { name: "Customer Success (CSM)", profile: { A: 3, R: 6, E: 10, T: 5 } },
+        { name: "Responsable SAV", profile: { A: 2, R: 5, E: 9, T: 9 } }
+    ];
+
+    // 3. PRÉPARATION & MÉLANGE DES QUESTIONS
+    let allQuestions = [];
+    
+    // On met tout à plat dans un seul tableau
+    for (const [axis, questions] of Object.entries(rawQuestionsData)) {
+        questions.forEach(q => {
+            allQuestions.push({ text: q, axis: axis });
+        });
+    }
+
+    // Algorithme de mélange (Fisher-Yates Shuffle)
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    allQuestions = shuffleArray(allQuestions);
+
+    // 4. AFFICHAGE DES QUESTIONS
+    const container = document.getElementById('questions-container');
+    
+    allQuestions.forEach((item, index) => {
+        const div = document.createElement('div');
+        div.className = 'question-box';
+        
+        // On garde l'axe dans un data-attribute pour le calcul, mais on ne l'affiche pas
+        div.innerHTML = `
+            <span class="q-number">Question ${index + 1} / ${allQuestions.length}</span>
+            <span class="question-text">${item.text}</span>
+            <div class="range-container">
+                <span>0</span>
+                <input type="range" min="0" max="5" value="0" class="q-input" data-axis="${item.axis}" oninput="this.nextElementSibling.innerText = this.value">
+                <span class="score-display">0</span>
+                <span>5</span>
+            </div>
+        `;
+        container.appendChild(div);
+    });
+
+    // 5. LOGIQUE DE CALCUL (inchangée)
+    function calculateResults() {
+        const inputs = document.querySelectorAll('.q-input');
+        let scores = { A: 0, R: 0, E: 0, T: 0 };
+        
+        inputs.forEach(input => {
+            scores[input.dataset.axis] += parseInt(input.value);
+        });
+
+        // Conversion sur 10
+        let finalScores = {
+            A: (scores.A / 4.5).toFixed(1),
+            R: (scores.R / 4.5).toFixed(1),
+            E: (scores.E / 4.5).toFixed(1),
+            T: (scores.T / 4.5).toFixed(1)
+        };
+
+        // Affichage du profil utilisateur
+        document.getElementById('score-A').innerText = finalScores.A;
+        document.getElementById('score-R').innerText = finalScores.R;
+        document.getElementById('score-E').innerText = finalScores.E;
+        document.getElementById('score-T').innerText = finalScores.T;
+
+        // Matching Métiers
+        let results = jobsMatrix.map(job => {
+            let diffA = Math.abs(finalScores.A - job.profile.A);
+            let diffR = Math.abs(finalScores.R - job.profile.R);
+            let diffE = Math.abs(finalScores.E - job.profile.E);
+            let diffT = Math.abs(finalScores.T - job.profile.T);
+            
+            let totalDiff = diffA + diffR + diffE + diffT;
+            let matchPercentage = Math.max(0, 100 - (totalDiff * 2.5));
+
+            return {
+                name: job.name,
+                match: matchPercentage.toFixed(0),
+                diffs: { A: diffA, R: diffR, E: diffE, T: diffT },
+                profile: job.profile
+            };
+        });
+
+        results.sort((a, b) => b.match - a.match);
+
+        const jobsContainer = document.getElementById('jobs-container');
+        jobsContainer.innerHTML = "";
+
+        results.forEach(res => {
+            let matchClass = "job-match-low";
+            if (res.match > 80) matchClass = "job-match-high";
+            else if (res.match > 60) matchClass = "job-match-med";
+
+            const div = document.createElement('div');
+            div.className = `job-card ${matchClass}`;
+            
+            let feedback = [];
+            // Si l'écart est significatif (> 3 points sur 10)
+            if (res.diffs.A > 3) feedback.push(`Audace (${res.profile.A})`);
+            if (res.diffs.R > 3) feedback.push(`Rigueur (${res.profile.R})`);
+            if (res.diffs.E > 3) feedback.push(`Empathie (${res.profile.E})`);
+            if (res.diffs.T > 3) feedback.push(`Technique (${res.profile.T})`);
+            
+            let feedbackText = feedback.length > 0 
+                ? "Écarts notables : " + feedback.join(", ") 
+                : "Profil aligné.";
+
+            div.innerHTML = `
+                <div class="job-header">
+                    <strong>${res.name}</strong>
+                    <span class="match-percent">${res.match}% Compatible</span>
+                </div>
+                <div class="details">
+                    ${feedbackText}
+                </div>
+            `;
+            jobsContainer.appendChild(div);
+        });
+
+        document.getElementById('results').style.display = 'block';
+        document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
+    }
+</script>
+
+</body>
+</html>
