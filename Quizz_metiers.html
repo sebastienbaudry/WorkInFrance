@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Radar de Compétences & Matching Métier</title>
+    <title>Radar de Compétences & Orientation BTS</title>
     <style>
         :root {
             --primary: #2c3e50;
@@ -170,6 +170,17 @@
             font-size: 1.1em;
         }
 
+        .bts-info {
+            background-color: #e8f4fd;
+            color: #2980b9;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-weight: bold;
+            margin: 8px 0;
+            display: inline-block;
+        }
+
         .details {
             font-size: 0.9em;
             color: #666;
@@ -180,12 +191,12 @@
 <body>
 
 <div class="container">
-    <h1>🎯 Profilage Métier</h1>
-    <p class="intro">Répondez spontanément aux affirmations suivantes (0 = Pas du tout d'accord, 5 = Tout à fait d'accord) pour révéler votre profil naturel.</p>
+    <h1>🎯 Profilage Métier & BTS</h1>
+    <p class="intro">Répondez spontanément aux affirmations suivantes (0 à 5) pour révéler votre profil et découvrir le BTS fait pour vous.</p>
 
     <form id="quizForm">
         <div id="questions-container"></div>
-        <button type="button" class="btn-calculate" onclick="calculateResults()">Voir mon Profil & Métiers</button>
+        <button type="button" class="btn-calculate" onclick="calculateResults()">Voir mon Profil & BTS conseillé</button>
     </form>
 
     <div id="results">
@@ -205,7 +216,7 @@
             </div>
         </div>
 
-        <h2>Classement des Métiers</h2>
+        <h2>Métiers & Formations correspondantes</h2>
         <div id="jobs-container"></div>
     </div>
 </div>
@@ -259,19 +270,19 @@
         ]
     };
 
-    // 2. DATA : Matrice Métiers
+    // 2. DATA : Matrice Métiers + BTS
     const jobsMatrix = [
-        { name: "Commercial Terrain (Chasseur)", profile: { A: 10, R: 3, E: 6, T: 4 } },
-        { name: "SDR (Prospection)", profile: { A: 10, R: 5, E: 4, T: 5 } },
-        { name: "Négociateur Immobilier", profile: { A: 9, R: 4, E: 8, T: 3 } },
-        { name: "Assistant Export", profile: { A: 3, R: 10, E: 5, T: 6 } },
-        { name: "Agent de Transit", profile: { A: 2, R: 10, E: 2, T: 8 } },
-        { name: "Technico-Commercial", profile: { A: 7, R: 5, E: 6, T: 9 } },
-        { name: "Chargé d'Affaires", profile: { A: 6, R: 8, E: 6, T: 8 } },
-        { name: "Manager de Rayon", profile: { A: 6, R: 7, E: 7, T: 4 } },
-        { name: "Conseiller Bancaire", profile: { A: 4, R: 9, E: 7, T: 6 } },
-        { name: "Customer Success (CSM)", profile: { A: 3, R: 6, E: 10, T: 5 } },
-        { name: "Responsable SAV", profile: { A: 2, R: 5, E: 9, T: 9 } }
+        { name: "Commercial Terrain (Chasseur)", bts: "BTS NDRC", profile: { A: 10, R: 3, E: 6, T: 4 } },
+        { name: "SDR (Prospection)", bts: "BTS NDRC", profile: { A: 10, R: 5, E: 4, T: 5 } },
+        { name: "Négociateur Immobilier", bts: "BTS Professions Immobilières", profile: { A: 9, R: 4, E: 8, T: 3 } },
+        { name: "Assistant Export", bts: "BTS Commerce International", profile: { A: 3, R: 10, E: 5, T: 6 } },
+        { name: "Agent de Transit", bts: "BTS GTLA (Logistique)", profile: { A: 2, R: 10, E: 2, T: 8 } },
+        { name: "Technico-Commercial", bts: "BTS CCST", profile: { A: 7, R: 5, E: 6, T: 9 } },
+        { name: "Chargé d'Affaires", bts: "BTS NDRC ou CCST", profile: { A: 6, R: 8, E: 6, T: 8 } },
+        { name: "Manager de Rayon", bts: "BTS MCO", profile: { A: 6, R: 7, E: 7, T: 4 } },
+        { name: "Conseiller Bancaire", bts: "BTS Banque", profile: { A: 4, R: 9, E: 7, T: 6 } },
+        { name: "Customer Success (CSM)", bts: "BTS NDRC", profile: { A: 3, R: 6, E: 10, T: 5 } },
+        { name: "Responsable SAV", bts: "BTS MCO ou CCST", profile: { A: 2, R: 5, E: 9, T: 9 } }
     ];
 
     // 3. PRÉPARATION & MÉLANGE DES QUESTIONS
@@ -302,7 +313,6 @@
         const div = document.createElement('div');
         div.className = 'question-box';
         
-        // On garde l'axe dans un data-attribute pour le calcul, mais on ne l'affiche pas
         div.innerHTML = `
             <span class="q-number">Question ${index + 1} / ${allQuestions.length}</span>
             <span class="question-text">${item.text}</span>
@@ -316,7 +326,7 @@
         container.appendChild(div);
     });
 
-    // 5. LOGIQUE DE CALCUL (inchangée)
+    // 5. LOGIQUE DE CALCUL
     function calculateResults() {
         const inputs = document.querySelectorAll('.q-input');
         let scores = { A: 0, R: 0, E: 0, T: 0 };
@@ -351,6 +361,7 @@
 
             return {
                 name: job.name,
+                bts: job.bts,
                 match: matchPercentage.toFixed(0),
                 diffs: { A: diffA, R: diffR, E: diffE, T: diffT },
                 profile: job.profile
@@ -371,7 +382,6 @@
             div.className = `job-card ${matchClass}`;
             
             let feedback = [];
-            // Si l'écart est significatif (> 3 points sur 10)
             if (res.diffs.A > 3) feedback.push(`Audace (${res.profile.A})`);
             if (res.diffs.R > 3) feedback.push(`Rigueur (${res.profile.R})`);
             if (res.diffs.E > 3) feedback.push(`Empathie (${res.profile.E})`);
@@ -386,6 +396,7 @@
                     <strong>${res.name}</strong>
                     <span class="match-percent">${res.match}% Compatible</span>
                 </div>
+                <div class="bts-info">🎓 ${res.bts}</div>
                 <div class="details">
                     ${feedbackText}
                 </div>
